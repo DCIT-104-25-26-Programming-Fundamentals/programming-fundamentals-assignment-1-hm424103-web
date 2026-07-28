@@ -39,3 +39,82 @@
 # YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
 # =============================================================================
 
+def get_sum(numbers):
+    """Return the sum of the numbers using a loop."""
+    total = 0
+    for value in numbers:
+        total += value
+    return total
+
+
+def get_average(numbers):
+    """Return the average of the numbers."""
+    if len(numbers) == 0:
+        return 0
+    return get_sum(numbers) / len(numbers)
+
+
+def get_maximum(numbers):
+    """Return the maximum value from the list using a loop."""
+    if len(numbers) == 0:
+        return None
+    maximum = numbers[0]
+    for value in numbers[1:]:
+        if value > maximum:
+            maximum = value
+    return maximum
+
+
+def get_minimum(numbers):
+    """Return the minimum value from the list using a loop."""
+    if len(numbers) == 0:
+        return None
+    minimum = numbers[0]
+    for value in numbers[1:]:
+        if value < minimum:
+            minimum = value
+    return minimum
+
+
+def read_numbers(count):
+    """Read a list of numbers from the user."""
+    numbers = []
+    for i in range(1, count + 1):
+        while True:
+            try:
+                value = float(input(f"Enter number {i}: "))
+                numbers.append(value)
+                break
+            except ValueError:
+                print("Error: Please enter a valid number.")
+    return numbers
+
+
+def main():
+    """Main program for the array statistics calculator."""
+    try:
+        count = int(input("How many numbers? "))
+    except ValueError:
+        print("Error: Please enter a valid integer.")
+        return
+
+    if count <= 0:
+        print("Error: Number of values must be a positive integer.")
+        return
+
+    numbers = read_numbers(count)
+    total = get_sum(numbers)
+    average = get_average(numbers)
+    maximum = get_maximum(numbers)
+    minimum = get_minimum(numbers)
+
+    print("\nResults:")
+    print(f"Sum:     {total}")
+    print(f"Average: {average}")
+    print(f"Maximum: {maximum}")
+    print(f"Minimum: {minimum}")
+
+
+if __name__ == "__main__":
+    main()
+
