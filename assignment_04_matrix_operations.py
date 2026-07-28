@@ -60,3 +60,114 @@
 # YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
 # =============================================================================
 
+def input_positive_int(prompt):
+    """Read a positive integer from the user."""
+    while True:
+        try:
+            value = int(input(prompt))
+            if value <= 0:
+                print("Error: Please enter a positive integer.")
+            else:
+                return value
+        except ValueError:
+            print("Error: Please enter a valid integer.")
+
+
+def read_matrix(rows, cols, matrix_name="Matrix"):
+    """Read a matrix from the user with the given number of rows and columns."""
+    matrix = []
+    for i in range(1, rows + 1):
+        while True:
+            row_input = input(f"Enter row {i} of {matrix_name}: ")
+            parts = row_input.strip().split()
+            if len(parts) != cols:
+                print(f"Error: Please enter exactly {cols} values.")
+                continue
+            try:
+                row = [int(value) for value in parts]
+                matrix.append(row)
+                break
+            except ValueError:
+                print("Error: Please enter valid integer values.")
+    return matrix
+
+
+def transpose_matrix(matrix):
+    """Return the transpose of a matrix."""
+    if not matrix:
+        return []
+    rows = len(matrix)
+    cols = len(matrix[0])
+    return [[matrix[r][c] for r in range(rows)] for c in range(cols)]
+
+
+def add_matrices(matrix_a, matrix_b):
+    """Return the element-wise sum of two same-size matrices."""
+    rows = len(matrix_a)
+    cols = len(matrix_a[0])
+    return [[matrix_a[r][c] + matrix_b[r][c] for c in range(cols)] for r in range(rows)]
+
+
+def multiply_matrices(matrix_a, matrix_b):
+    """Return the product of matrix_a and matrix_b."""
+    rows_a = len(matrix_a)
+    cols_a = len(matrix_a[0])
+    cols_b = len(matrix_b[0])
+    result = []
+    for r in range(rows_a):
+        result_row = []
+        for c in range(cols_b):
+            total = 0
+            for k in range(cols_a):
+                total += matrix_a[r][k] * matrix_b[k][c]
+            result_row.append(total)
+        result.append(result_row)
+    return result
+
+
+def print_matrix(matrix, label=None):
+    """Print a matrix in a neat aligned grid."""
+    if label:
+        print(label)
+    if not matrix:
+        print("[]")
+        return
+    width = max(len(str(value)) for row in matrix for value in row) + 1
+    for row in matrix:
+        print("".join(str(value).rjust(width) for value in row))
+
+
+def main():
+    """Main function to run matrix operations for assignment 4."""
+    print("PART A — Transpose a Matrix")
+    rows = input_positive_int("Enter number of rows: ")
+    cols = input_positive_int("Enter number of columns: ")
+    matrix = read_matrix(rows, cols, "Matrix A")
+    print("\nOriginal Matrix:")
+    print_matrix(matrix)
+    print("\nTransposed Matrix:")
+    print_matrix(transpose_matrix(matrix))
+
+    print("\nPART B — Add Two Matrices")
+    rows = input_positive_int("Enter number of rows for matrices: ")
+    cols = input_positive_int("Enter number of columns for matrices: ")
+    matrix_a = read_matrix(rows, cols, "Matrix A")
+    matrix_b = read_matrix(rows, cols, "Matrix B")
+    print("\nMatrix A + Matrix B:")
+    print_matrix(add_matrices(matrix_a, matrix_b))
+
+    print("\nPART C — Multiply Two Matrices")
+    rows_a = input_positive_int("Enter number of rows for matrix A: ")
+    cols_a = input_positive_int("Enter number of columns for matrix A: ")
+    print("For matrix B, the number of rows must equal the number of columns of matrix A.")
+    rows_b = cols_a
+    cols_b = input_positive_int("Enter number of columns for matrix B: ")
+    matrix_a = read_matrix(rows_a, cols_a, "Matrix A")
+    matrix_b = read_matrix(rows_b, cols_b, "Matrix B")
+    print("\nMatrix A × Matrix B:")
+    print_matrix(multiply_matrices(matrix_a, matrix_b))
+
+
+if __name__ == "__main__":
+    main()
+
